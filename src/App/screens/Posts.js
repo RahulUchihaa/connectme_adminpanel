@@ -184,17 +184,39 @@ function Posts() {
     <tr key={row.id}>
       <td>{activePage * total - total + index + 1}</td>
       {row.content_type === "VIDEO" ? (
-        <td onClick={() => handleViewvideo(row.postcontent[0].image_url)}>
-          <Avatar src={row.postcontent[0].image_url} size={30} radius={30} />
-        </td>
+        <>
+          {row.postcontent ? (
+            <td onClick={() => handleViewvideo(row.postcontent[0].image_url)}>
+              <Avatar
+                src={row.postcontent[0].image_url}
+                size={30}
+                radius={30}
+              />
+            </td>
+          ) : (
+            <td>null</td>
+          )}
+        </>
+      ) : row.content_type === "IMAGE" ? (
+        <>
+          {row.postcontent ? (
+            <td
+              onClick={() =>
+                handleViewImage(row.postcontent[0].image_url.split(",")[0])
+              }
+            >
+              <Avatar
+                src={row.postcontent[0].image_url}
+                size={30}
+                radius={30}
+              />
+            </td>
+          ) : (
+            <td>null</td>
+          )}
+        </>
       ) : (
-        <td
-          onClick={() =>
-            handleViewImage(row.postcontent[0].image_url.split(",")[0])
-          }
-        >
-          <Avatar src={row.postcontent[0].image_url} size={30} radius={30} />
-        </td>
+        <td>Text</td>
       )}
 
       <td>{row.org_name}</td>

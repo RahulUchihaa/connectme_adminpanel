@@ -9,6 +9,7 @@ import { ModalsProvider } from "@mantine/modals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 const history = createBrowserHistory({ window });
+
 root.render(
   <React.StrictMode>
     <HashRouter history={history}>

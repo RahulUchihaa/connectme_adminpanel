@@ -198,10 +198,6 @@ const useStyles = createStyles((theme) => ({
   controlTable: {
     width: "100%",
     padding: `${theme.spacing.xs}px ${theme.spacing.md}px`,
-
-    "&:hover": {
-      backgroundColor: theme.colors.orange[0],
-    },
   },
 
   // Custome style start

@@ -123,7 +123,6 @@ function Vlogs() {
   };
 
   const deletePosts = async (id) => {
-    console.log(id);
     const req = {
       id: id,
     };

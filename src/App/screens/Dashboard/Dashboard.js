@@ -13,7 +13,6 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { useModals } from "@mantine/modals";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { Search, UserCheck, UserOff, UserX } from "tabler-icons-react";
@@ -22,7 +21,6 @@ import {
   fetchDashboardata,
   fetchOffers,
   fetchPosts,
-  fetchRoles,
   fetchVlogs,
 } from "../../helpers/api";
 import { dataSlice } from "../../helpers/common";
@@ -37,7 +35,7 @@ function Dashboard() {
     },
   }));
   const { classes } = useStyles();
-  const modals = useModals();
+
   const [refreshTable, setRefreshTable] = useState(Date.now());
   const [state, setState] = useState({
     skeletonLoading: true,
@@ -79,6 +77,7 @@ function Dashboard() {
             page: 1,
             total: 10,
           });
+
           setSortedData(datas);
         }
         const roles = await fetchVlogs();
@@ -200,17 +199,39 @@ function Dashboard() {
     <tr key={row.id}>
       <td>{activePage * total - total + index + 1}</td>
       {row.content_type === "VIDEO" ? (
-        <td onClick={() => handleViewvideo(row.postcontent[0].image_url)}>
-          <Avatar src={row.postcontent[0].image_url} size={30} radius={30} />
-        </td>
+        <>
+          {row.postcontent ? (
+            <td onClick={() => handleViewvideo(row.postcontent[0].image_url)}>
+              <Avatar
+                src={row.postcontent[0].image_url}
+                size={30}
+                radius={30}
+              />
+            </td>
+          ) : (
+            <td>null</td>
+          )}
+        </>
+      ) : row.content_type === "IMAGE" ? (
+        <>
+          {row.postcontent ? (
+            <td
+              onClick={() =>
+                handleViewImage(row.postcontent[0].image_url.split(",")[0])
+              }
+            >
+              <Avatar
+                src={row.postcontent[0].image_url}
+                size={30}
+                radius={30}
+              />
+            </td>
+          ) : (
+            <td>null</td>
+          )}
+        </>
       ) : (
-        <td
-          onClick={() =>
-            handleViewImage(row.postcontent[0].image_url.split(",")[0])
-          }
-        >
-          <Avatar src={row.postcontent[0].image_url} size={30} radius={30} />
-        </td>
+        <td>Text</td>
       )}
 
       <td>{row.org_name}</td>
@@ -244,7 +265,7 @@ function Dashboard() {
                   height={80}
                   style={{ marginTop: -20 }}
                 />
-                <Text mt={10} style={{ marginLeft: 20 }}>
+                <Text mt={10} style={{ marginLeft: 8 }}>
                   Super User{" "}
                 </Text>
                 <div style={{ display: "flex", justifyContent: "center" }}>
@@ -442,16 +463,20 @@ function Dashboard() {
                       scrollbarSize={4}
                     >
                       {state.roleData.map((row, index) => (
-                        <Card>
+                        <Card key={row.id}>
                           <div
                             style={{
                               display: "flex",
                               justifyContent: "space-between",
                               flexDirection: "row",
                             }}
-                            key={row.id}
                           >
-                            <Text>{row.video_caption}</Text>
+                            {row.video_caption !== null ? (
+                              <Text>{row.video_caption}</Text>
+                            ) : (
+                              <Text>No caption</Text>
+                            )}
+
                             <Avatar
                               onClick={() => handleViewvideo(row.video_url)}
                               src={row.video_url}

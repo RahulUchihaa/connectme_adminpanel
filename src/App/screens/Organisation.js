@@ -108,6 +108,7 @@ function Organisation() {
             page: 1,
             total: 10,
           });
+
           setSortedData(datas);
         }
         var Roledata = [];
@@ -294,7 +295,8 @@ function Organisation() {
       <td>{row.orgname}</td>
       <td>{row.email}</td>
       <td>{row.mobile}</td>
-      <td>{row.userdata.name}</td>
+      {row.userdata !== null ? <td>{row.userdata.name}</td> : <td>-</td>}
+
       <td>
         <Switch
           checked={row.status}

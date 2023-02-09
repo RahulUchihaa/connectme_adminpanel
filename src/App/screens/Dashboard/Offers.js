@@ -52,7 +52,7 @@ function Offers() {
     const fetchData = async () => {
       if (mounted) {
         const response = await fetchOffers();
-        console.log(response.data.offers);
+
         if (response.status === 200) {
           setState((state) => {
             return {
